@@ -2,7 +2,9 @@
 <main>
   <ul id="users">
     <li>
-      <app-user/>
+      @for (user of dummyUsers; track user.id) {
+        <app-user [avatar]="user.avatar" [name]="user.name" (selected)="onSelectUser($event)"/>
+      }
     </li>
   </ul>
 </main>
