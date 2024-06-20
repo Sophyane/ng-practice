@@ -3,9 +3,15 @@
   <ul id="users">
     <li>
       @for (user of dummyUsers; track user.id) {
-        <app-user [avatar]="user.avatar" [name]="user.name" (selected)="onSelectUser($event)"/>
+        <app-user [user]="user" (selected)="onSelectUser($event)"/>
       }
     </li>
   </ul>
+  @if (selectedUser) {
+    <app-tasks [userId]="selectedUserId()" (userName)="onUserNameReceived($event)"
+               [name]="selectedUser.name"/>
+  } @else {
+    <h1> Select a user to see their Tasks !</h1>
+  }
 </main>
 

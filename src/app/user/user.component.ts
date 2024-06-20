@@ -1,23 +1,19 @@
 import { Component, computed, input, output } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
+import { User } from './user.model';
 
 
 @Component({
   selector: 'app-user',
   standalone: true,
   templateUrl: './user.component.html',
-  imports: [
-    NgOptimizedImage
-  ],
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  avatar = input.required<string>();
-  name = input.required<string>();
+  user = input<User>();
   selected = output<string>();
-  imagePath = computed(() => 'assets/users/' + this.avatar());
 
+  imagePath = computed(() => 'assets/users/' + this.user()?.avatar);
   onSelectUser() {
-    this.selected.emit(this.name());
+    this.selected.emit(this.user()!.id);
   }
 }

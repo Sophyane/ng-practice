@@ -1,6 +1,8 @@
-<div style="margin-bottom: 0.8rem">
-  <button (click)="onSelectUser()">
-    <img [alt]="name()" [src]="imagePath()"/>
-    <span>{{ name() }}</span>
-  </button>
-</div>
+@if (user()) {
+  <div style="margin-bottom: 0.8rem">
+    <button (click)="onSelectUser()">
+      <img [alt]="user()?.name" [src]="imagePath()"/>
+      <span> {{ user()?.name }} </span>
+    </button>
+  </div>
+}
