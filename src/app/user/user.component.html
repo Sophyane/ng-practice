@@ -1,8 +1,8 @@
-@if (user()) {
-  <div style="margin-bottom: 0.8rem">
-    <button (click)="onSelectUser()">
+<app-card>
+  <div>
+    <button [class.active]="isSelected()" (click)="onSelectUser()">
       <img [alt]="user()?.name" [src]="imagePath()"/>
       <span> {{ user()?.name }} </span>
     </button>
   </div>
-}
+</app-card>
