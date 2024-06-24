@@ -1,0 +1,25 @@
+<section id="tasks">
+  <header>
+    @if (selectedUser()) {
+      <h2>
+        {{ selectedUser()?.name + ' task' }}
+      </h2>
+    }
+    <menu>
+      <button>
+        <h1>Add at ask</h1>
+      </button>
+    </menu>
+  </header>
+  <ul>
+    @if (tasks().length > 0) {
+      @for (task of tasks(); track task.id) {
+        <li>
+          <app-task [task]="task" (selected)="onSelectTask($event)"/>
+        </li>
+      }
+    } @else {
+      <h3> No tasks found ! </h3>
+    }
+  </ul>
+</section>
