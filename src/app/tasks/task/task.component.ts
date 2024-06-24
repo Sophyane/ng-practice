@@ -11,9 +11,4 @@ import { Task } from '../task.model';
 export class TaskComponent {
   task = input.required<Task>();
   selected = output<Task>();
-
-  onCompleteTask() {
-
-  }
-
 }

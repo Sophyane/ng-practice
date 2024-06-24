@@ -1,34 +1,26 @@
-import { Component, input, OnInit, output, signal } from '@angular/core';
+import { Component, input, OnChanges, signal } from '@angular/core';
 import { DUMMY_USERS } from '../user/dummy-users';
 import { TaskComponent } from './task/task.component';
 import { Task } from './task.model';
+import { User } from '../user/user.model';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [
-    TaskComponent
-  ],
+  imports: [ TaskComponent ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
-export class TasksComponent implements OnInit {
-  name = input.required<string>();
-  userName = output<string>();
-  userId = input<string>();
-  selectedUser = DUMMY_USERS.find(user =>
-    user.id === this.userId());
+export class TasksComponent implements OnChanges {
+  selectedUser = input<User>();
   tasks = signal<Task[]>([]);
 
-  ngOnInit() {
+  ngOnChanges() {
     this.tasks.set(DUMMY_USERS.find(user =>
-      user.id === this.userId())?.tasks || []);
-    console.log('TASKS: ',this.tasks());
-    this.userName.emit(this.selectedUser?.name! ? this.selectedUser?.name : '');
+      user.id === this.selectedUser()?.id)?.tasks || []);
   }
 
   onSelectTask(task: Task) {
-    console.log('Task selected: ',  task);
+    console.log('Task selected: ', task);
   }
-
 }

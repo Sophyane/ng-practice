@@ -1,6 +1,10 @@
 <section id="tasks">
   <header>
-    <h2> {{ name() ? (name() + ' task') : 'No one is selected !' }} </h2>
+    @if (selectedUser()) {
+      <h2>
+        {{ selectedUser()?.name + ' task' }}
+      </h2>
+    }
     <menu>
       <button>
         <h1>Add at ask</h1>
@@ -8,7 +12,7 @@
     </menu>
   </header>
   <ul>
-    @if (tasks().length > 0 && !!tasks()) {
+    @if (tasks().length > 0) {
       @for (task of tasks(); track task.id) {
         <li>
           <app-task [task]="task" (selected)="onSelectTask($event)"/>

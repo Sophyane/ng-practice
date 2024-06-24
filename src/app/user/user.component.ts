@@ -10,10 +10,10 @@ import { User } from './user.model';
 })
 export class UserComponent {
   user = input<User>();
-  selected = output<string>();
+  selectedUser = output<User>();
 
   imagePath = computed(() => 'assets/users/' + this.user()?.avatar);
   onSelectUser() {
-    this.selected.emit(this.user()!.id);
+    this.selectedUser.emit(this.user()!);
   }
 }

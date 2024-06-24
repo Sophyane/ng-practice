@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { UserComponent } from './user/user.component';
 import { DUMMY_USERS } from './user/dummy-users';
 import { TasksComponent } from './tasks/tasks.component';
+import { User } from './user/user.model';
 
 @Component({
   selector: 'app-root',
@@ -15,17 +16,9 @@ import { TasksComponent } from './tasks/tasks.component';
 export class AppComponent {
   title = 'ng-practice';
   dummyUsers = DUMMY_USERS;
-  selectedUserId = signal<string>('');
+  selectedUser = signal<User | undefined>(undefined);
 
-  get selectedUser() {
-    return this.dummyUsers.find(user => user.id === this.selectedUserId())!;
-  }
-
-  onSelectUser(userId: string) {
-    this.selectedUserId.set(userId);
-  }
-
-  onUserNameReceived(userName: string) {
-    console.log('User name received: ', userName);
+  onSelectUser(user: User) {
+    this.selectedUser.set(user);
   }
 }

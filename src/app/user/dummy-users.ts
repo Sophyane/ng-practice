@@ -43,6 +43,17 @@ export const DUMMY_USERS = [
     id: 'u3',
     name: 'Marcus Johnson',
     avatar: 'user-3.jpg',
+    tasks: [
+      {
+        id: 't1',
+        userId: 'u2',
+        title: 'Master Angular',
+        summary:
+          'Learn all the basic and advanced features of Angular & how to apply them.',
+        dueDate: '08/12/2024',
+        status: TaskStatus.DONE,
+      },
+    ]
   },
   {
     id: 'u4',
