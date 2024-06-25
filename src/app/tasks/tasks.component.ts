@@ -1,7 +1,6 @@
-import { Component, inject, input, OnChanges, signal } from '@angular/core';
-import { DUMMY_USERS } from '../user/dummy-users';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
-import { Task, TaskStatus } from './task.model';
+import { Task } from './task.model';
 import { User } from '../user/user.model';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { TasksService } from './tasks.service';
@@ -13,14 +12,18 @@ import { TasksService } from './tasks.service';
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
-export class TasksComponent implements OnChanges {
+export class TasksComponent  {
   selectedUser = input<User>();
   isAddingTask = signal<boolean>(false);
   private tasksService = inject(TasksService);
   tasks = this.tasksService.tasks;
 
-  ngOnChanges() {
-    this.tasks.set(this.tasksService.getUserTasks(this.selectedUser()?.id!));
+  constructor() {
+    effect(() => {
+        if(this.selectedUser())
+          return this.tasks.set(this.tasksService.getUserTasks(this.selectedUser()?.id!));
+      },{ allowSignalWrites: true }
+    )
   }
 
   onStartAddTask() {
