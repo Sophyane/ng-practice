@@ -1,9 +1,10 @@
-import { Component, input, OnChanges, signal } from '@angular/core';
+import { Component, inject, input, OnChanges, signal } from '@angular/core';
 import { DUMMY_USERS } from '../user/dummy-users';
 import { TaskComponent } from './task/task.component';
 import { Task, TaskStatus } from './task.model';
 import { User } from '../user/user.model';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { TasksService } from './tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -14,16 +15,12 @@ import { NewTaskComponent } from './new-task/new-task.component';
 })
 export class TasksComponent implements OnChanges {
   selectedUser = input<User>();
-  tasks = signal<Task[]>([]);
   isAddingTask = signal<boolean>(false);
+  private tasksService = inject(TasksService);
+  tasks = this.tasksService.tasks;
 
   ngOnChanges() {
-    this.tasks.set(DUMMY_USERS.find(user =>
-      user.id === this.selectedUser()?.id)?.tasks || []);
-  }
-
-  onCompleteTask(task: string) {
-    this.tasks.update(tasks => tasks.filter(t => t.id !== task));
+    this.tasks.set(this.tasksService.getUserTasks(this.selectedUser()?.id!));
   }
 
   onStartAddTask() {
@@ -31,14 +28,7 @@ export class TasksComponent implements OnChanges {
   }
 
   onAddTask(task: Pick<Task, 'title' | 'summary' | 'dueDate'>) {
-    this.tasks.update(tasks => [
-      ...tasks,
-      {
-        id: Date().toString(), ...task,
-        status: TaskStatus.ACTIVE,
-        userId: this.selectedUser()?.id!
-      }
-    ]);
+    this.tasksService.addTask(task, this.selectedUser()?.id!);
     this.isAddingTask.set(false);
   }
 

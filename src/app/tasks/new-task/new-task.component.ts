@@ -1,6 +1,7 @@
-import { Component, inject, OnInit, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../task.model';
+import { TasksService } from '../tasks.service';
 
 @Component({
   selector: 'app-new-task',
@@ -11,25 +12,20 @@ import { Task } from '../task.model';
   templateUrl: './new-task.component.html',
   styleUrl: './new-task.component.css'
 })
-export class NewTaskComponent implements OnInit {
+export class NewTaskComponent {
   cancel = output();
+  userId = input.required<string>();
   createdTask = output<Pick<Task, 'title' | 'summary' | 'dueDate'>>();
   fb = inject(FormBuilder);
+  private tasksService = inject(TasksService);
   taskFormGroup = this.fb.group({
     title: ['', Validators.required],
     summary: ['', Validators.required],
     dueDate: ['', Validators.required],
   });
 
-  ngOnInit() {
-    this.taskFormGroup.valueChanges.subscribe(value => {
-      console.log(value);
-    });
-  }
-
   onCreate() {
-    this.createdTask.emit(this.taskFormGroup.value as Pick<Task, 'title' | 'summary' | 'dueDate'>);
-    console.log(this.taskFormGroup.value);
+    this.tasksService.addTask(this.taskFormGroup.value as Pick<Task, 'title' | 'summary' | 'dueDate'>, this.userId()!);
   }
 
   onCancel() {

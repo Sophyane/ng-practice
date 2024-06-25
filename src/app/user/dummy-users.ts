@@ -29,7 +29,7 @@ export const DUMMY_USERS = [
         title: 'Prepare issue template',
         summary:
           'Prepare and describe an issue template which will help with project management',
-        dueDate:  '29/08/2024',
+        dueDate: '29/08/2024',
         status: TaskStatus.DONE,
       },
     ]
@@ -47,9 +47,10 @@ export const DUMMY_USERS = [
       {
         id: 't1',
         userId: 'u2',
-        title: 'Master Angular',
+        title: 'Confirme The lean Canvas',
         summary:
-          'Learn all the basic and advanced features of Angular & how to apply them.',
+          'Silver Leanings is a company that provides a platform for people to learn new skills and improve their lives.' +
+          ' The company has been around for a few years and has a good reputation.',
         dueDate: '08/12/2024',
         status: TaskStatus.DONE,
       },
