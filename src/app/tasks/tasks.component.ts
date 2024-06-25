@@ -1,26 +1,41 @@
-import { Component, input, OnChanges, signal } from '@angular/core';
-import { DUMMY_USERS } from '../user/dummy-users';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { Task } from './task.model';
 import { User } from '../user/user.model';
+import { NewTaskComponent } from './new-task/new-task.component';
+import { TasksService } from './tasks.service';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [ TaskComponent ],
+  imports: [TaskComponent, NewTaskComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
-export class TasksComponent implements OnChanges {
+export class TasksComponent  {
   selectedUser = input<User>();
-  tasks = signal<Task[]>([]);
+  isAddingTask = signal<boolean>(false);
+  private tasksService = inject(TasksService);
+  tasks = this.tasksService.tasks;
 
-  ngOnChanges() {
-    this.tasks.set(DUMMY_USERS.find(user =>
-      user.id === this.selectedUser()?.id)?.tasks || []);
+  constructor() {
+    effect(() => {
+        if(this.selectedUser())
+          return this.tasks.set(this.tasksService.getUserTasks(this.selectedUser()?.id!));
+      },{ allowSignalWrites: true }
+    )
   }
 
-  onSelectTask(task: Task) {
-    console.log('Task selected: ', task);
+  onStartAddTask() {
+   this.isAddingTask.set(true);
+  }
+
+  onAddTask(task: Pick<Task, 'title' | 'summary' | 'dueDate'>) {
+    this.tasksService.addTask(task, this.selectedUser()?.id!);
+    this.isAddingTask.set(false);
+  }
+
+  onCancelAddTask() {
+    this.isAddingTask.set(false);
   }
 }

@@ -1,3 +1,7 @@
+@if (isAddingTask()){
+  <app-new-task [userId]="selectedUser()?.id!" (cancel)="onCancelAddTask()" (createdTask)="onAddTask($event)" />
+}
+
 <section id="tasks">
   <header>
     @if (selectedUser()) {
@@ -6,7 +10,7 @@
       </h2>
     }
     <menu>
-      <button>
+      <button (click)="onStartAddTask()">
         <h1>Add at ask</h1>
       </button>
     </menu>
@@ -15,7 +19,7 @@
     @if (tasks().length > 0) {
       @for (task of tasks(); track task.id) {
         <li>
-          <app-task [task]="task" (selected)="onSelectTask($event)"/>
+          <app-task [task]="task"/>
         </li>
       }
     } @else {
