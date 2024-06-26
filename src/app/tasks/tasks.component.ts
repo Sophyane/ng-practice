@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, OnInit, effect, inject, input, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { Task } from './task.model';
 import { User } from '../user/user.model';
@@ -12,13 +12,14 @@ import { TasksService } from './tasks.service';
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
-export class TasksComponent  {
+export class TasksComponent implements OnInit {
   selectedUser = input<User>();
   isAddingTask = signal<boolean>(false);
   private tasksService = inject(TasksService);
   tasks = this.tasksService.tasks;
 
-  constructor() {
+
+  ngOnInit() {
     effect(() => {
         if(this.selectedUser())
           return this.tasks.set(this.tasksService.getUserTasks(this.selectedUser()?.id!));
