@@ -1,0 +1,82 @@
+<div class="flex justify-between">
+  <section class=" bg-custom-pro p-2 m-2 rounded-xl ">
+    <div class="flex flex-row justify-center">
+      <h2 class="font-extrabold text-2xl"> Create Customer </h2>
+    </div>
+    <form [formGroup]="customerFormGroup">
+      <div class="col-12 md:col-4 m-2">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">Name</span>
+          <input type="text" pInputText placeholder="enter username..." formControlName="name">
+        </div>
+        @if (customerFormGroup.get('name')?.invalid && customerFormGroup.get('name')?.dirty) {
+          <small class="p-error flex justify-end">
+            User name is required</small>
+        }
+      </div>
+
+      <div class="col-12 md:col-4 m-2">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">email</span>
+          <input type="text" pInputText placeholder="enter email..." formControlName="email">
+        </div>
+      </div>
+
+      <div class="col-12 md:col-4 m-2">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">phone</span>
+          <input type="text" pInputText placeholder="enter phone..." formControlName="phone">
+        </div>
+      </div>
+
+      <div class="col-12 md:col-4 m-2">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">address</span>
+          <input type="text" pInputText placeholder="enter address..." formControlName="address">
+        </div>
+      </div>
+
+      <div class="col-12 md:col-4 m-2">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">Country</span>
+          @if (countriesWithFlags$ | async; as countries) {
+            <p-dropdown
+              [options]="countries"
+              formControlName="country"
+              placeholder="Select a Country"
+              optionLabel="countryName">
+              @for (country of countries; track country) {
+                <ng-template let-country pTemplate="item">
+                  <div class="flex justify-between">
+                    <span> {{ country.countryName }} </span>
+                    <img [src]="country.flag" alt="" height="30" width="30"/>
+                  </div>
+                </ng-template>
+              }
+            </p-dropdown>
+          }
+        </div>
+      </div>
+      <div class="col-12 md:col-4 m-2">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">Terms & C</span>
+          <div class="ml-1 flex row-flex justify-end">
+            <p>Check if you agree with terms and conditions</p>
+            <p-checkbox formControlName="terms" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 md:col-4 m-2">
+        <div class="p-inputgroup">
+          <button pButton type="button" class="p-button-raised justify-center bg-secondary-color w-full mt-3"
+                  (click)="createCustomer($event)" [disabled]="customerFormGroup.invalid">
+            Create Customer
+          </button>
+        </div>
+        <p-toast></p-toast>
+        <p-confirmPopup></p-confirmPopup>
+      </div>
+    </form>
+  </section>
+
+</div>

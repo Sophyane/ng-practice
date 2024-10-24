@@ -1,0 +1,14 @@
+
+p-table {
+  width: 100%;
+}
+
+th {
+  background-color: theme('colors.custom-pro');
+  color: lightblue;
+  flex-direction: row;
+  text-align: center;
+}
+
+
+

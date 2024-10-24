@@ -1,0 +1,72 @@
+<section class="flex w-full">
+  @if ((filteredCountries$ | async); as countries) {
+    <p-table [value]="countries" styleClass="p-datatable-gridlines"
+             [tableStyle]="{ 'min-width': '100%' }"
+             [rows]="8"
+             [paginator]="true"
+             [rowsPerPageOptions]="[5, 10]">
+
+      <ng-template pTemplate="header">
+        <th class="flex justify-between rounded-t p-4">
+          <h3 class="flex">Search:</h3>
+          <div class="flex">
+            <input type="text" class="flex justify-center border border-gray-300 rounded-md p-3 mr-2"
+                   placeholder="search country"
+                   [formControl]="queryFormControl">
+            <button pButton type="button" class="p-button-contrast p-3 rounded-full bg-warn-color"
+                    (click)="clear()"> Clear
+            </button>
+          </div>
+        </th>
+        <tr>
+          <th class="w-1/12"> Country name</th>
+          <th class="w-1/4"> Language</th>
+          <th class="w-1/6"> Currency</th>
+          <th class="w-1/12"> MAP</th>
+          <th class="w-1/12"> Flag</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-country>
+        <tr>
+          <td>{{ country.name.common }}</td>
+
+          @if (country.languages) {
+            <td
+              class="max-w-9 overflow-ellipsis overflow-hidden truncate ">
+              @for (languageKey of getKeys(country.languages); track languageKey) {
+                {{ country.languages[languageKey].trim() }}
+              }
+            </td>
+          } @else {
+            <td> Not available</td>
+          }
+          @if (country.currencies) {
+            <td>
+              @for (currencyKey of getKeys(country.currencies); track currencyKey) {
+                {{ country.currencies | formatCurrency: currencyKey }}
+              }
+            </td>
+          } @else {
+            <td>Not available</td>
+          }
+          <td>
+            <div class="flex justify-center">
+              <a [href]="country.maps.googleMaps" target="_blank">
+                <button pButton type="button" class="p-button-raised bg-secondary-color">
+                  Open map
+                </button>
+              </a>
+            </div>
+          </td>
+          <td>
+            <div class="flex justify-center">
+              <img [src]="country.flags.png" [alt]="country.flag.alt"
+                   class="rounded"
+                   height="40" width="40">
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</section>
