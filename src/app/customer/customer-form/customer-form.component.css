@@ -1,0 +1,8 @@
+.p-inputgroup p-dropdown {
+  display: flex;
+  justify-content: center;
+}
+
+span {
+  width: 30%;
+}

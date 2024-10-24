@@ -1,0 +1,11 @@
+<header>
+  <h1 class="text-gray-500 font-bold flex justify-center text-5xl w-full">
+    List of countries</h1>
+</header>
+
+<div class="flex justify-center">
+  <app-customer-form [countriesWithFlags]="" [countriesWithFlags$]="countriesWithFlags$"
+                     (customerCreatedEvent)="createCustomer($event)"/>
+  <app-customers-display [customers]="customers$ | async" (deleteCustomerEvent)="customerToDelete($event)"/>
+</div>
+<app-table/>

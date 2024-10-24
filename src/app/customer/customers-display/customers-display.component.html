@@ -1,0 +1,13 @@
+<section class="flex flex-col bg-custom-pro p-2 m-2 rounded-xl h-full">
+  <h1><b>Customers</b></h1>
+  @if (!!customers && customers.length > 0) {
+    <p-listbox
+      [options]="customers"
+      optionLabel="name"
+      [style]="{'width':'20rem'}"
+      (onClick)="deleteCustomer($event)">
+    </p-listbox>
+  } @else {
+    <p>There are no customers</p>
+  }
+</section>
