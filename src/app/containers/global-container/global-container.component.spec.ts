@@ -1,22 +1,29 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { GlobalContainerComponent } from './global-container.component';
+import { CountryFacade } from '../../country/country.facade';
+import { CustomerFacade } from '../../customer/customer.facade';
+import { CustomerFormComponent } from '../../customer/customer-form/customer-form.component';
+import { CountriesTableComponent } from '../../country/country-table/countries-table.component';
+import { CustomersDisplayComponent } from '../../customer/customers-display/customers-display.component';
 
 describe('GlobalContainerComponent', () => {
-  let component: GlobalContainerComponent;
-  let fixture: ComponentFixture<GlobalContainerComponent>;
+  let spectator: Spectator<GlobalContainerComponent>;
+  const createComponent = createComponentFactory({
+    component: GlobalContainerComponent,
+    imports: [
+      CustomerFormComponent,
+      CountriesTableComponent,
+      CustomersDisplayComponent,
+    ],
+    mocks: [CustomerFacade, CountryFacade],
+    detectChanges: false,
+  });
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [GlobalContainerComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(GlobalContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    return (spectator = createComponent());
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

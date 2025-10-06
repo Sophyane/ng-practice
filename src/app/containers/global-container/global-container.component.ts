@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CustomerFormComponent } from '../../customer/customer-form/customer-form.component';
 import { CountriesTableComponent } from '../../country/country-table/countries-table.component';
 import { CustomerFacade } from '../../customer/customer.facade';
@@ -18,6 +18,7 @@ import { Customer } from '../../models/customer.model';
   ],
   templateUrl: './global-container.component.html',
   styleUrl: './global-container.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GlobalContainerComponent {
   #countryFacade: CountryFacade = inject(CountryFacade);
